@@ -1,0 +1,32 @@
+﻿@model FacilitatorSystem.Models.Register
+@{
+    ViewBag.Title = "Index";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
+    <br />
+    <h1>User Register</h1>
+    <div class="form-group">
+        @Html.LabelFor(m => m.EmployeeName, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.TextBoxFor(m => m.EmployeeName, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(m => m.EmployeeName, "", new { @class = "text-danger" })
+    </div>
+    <br />
+    <div class="form-group">
+        @Html.LabelFor(m => m.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.TextBoxFor(m => m.Password, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+
+        <br />
+        @Html.LabelFor(m => m.ConfirmPassword, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.TextBoxFor(m => m.ConfirmPassword, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
+    </div>
+
+    <input type="Submit" value="Register" />
+
+}
+
