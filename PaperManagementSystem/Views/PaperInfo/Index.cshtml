@@ -1,0 +1,37 @@
+﻿@model IEnumerable<PaperManagementSystem.Models.PaperInfo>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Submitted Papers</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(modal => modal.PaperId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PaperTitle)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PaperAuthor)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.PaperId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PaperTitle)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PaperAuthor)
+        </td>
+    </tr>
+}
+
+</table>

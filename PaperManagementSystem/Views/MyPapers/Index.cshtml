@@ -1,0 +1,56 @@
+﻿@using PaperManagementSystem.Models;
+@model MyPaperViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Submit New Paper", "Create")
+    @ViewBag.DeleteMessage
+</p>
+<table class="table">
+    <tr>
+        <th>
+            ID
+        </th>
+        <th>
+            Title
+        </th>
+        <th>
+            Submission Date
+        </th>
+        <th>
+            Topic
+        </th>
+    </tr>
+
+    @foreach (PaperInfo paper in Model.Paper)
+    {
+        if (paper.PaperAuthor == User.Identity.Name) { 
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => paper.PaperId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => paper.PaperTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => paper.PaperDateSubmitted)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => paper.TopicInfo.Topic_Name)
+            </td>
+            <td>
+                <button class="btn btn-default" style="background-color: yellow;">@Html.ActionLink("Edit", "Edit", new { id = paper.PaperId })</button>
+                <button class="btn btn-default" style="background-color: red;">
+                    @Html.ActionLink("Delete", "Delete", new { id = paper.PaperId },
+                                new { onclick = "return confirm('Are sure wants to delete?');" })
+                            </button>
+            </td>
+        </tr>
+        }
+    }
+</table>
