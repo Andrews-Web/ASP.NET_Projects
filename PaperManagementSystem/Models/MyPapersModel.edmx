@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="MyPapersModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="PaperInfo">
+          <Key>
+            <PropertyRef Name="PaperId" />
+          </Key>
+          <Property Name="PaperId" Type="int" Nullable="false" />
+          <Property Name="PaperTitle" Type="nvarchar(max)" />
+          <Property Name="PaperAbstract" Type="nvarchar(max)" />
+          <Property Name="PaperAuthor" Type="nvarchar" MaxLength="50" />
+          <Property Name="PaperDateSubmitted" Type="date" />
+          <Property Name="TopicId" Type="int" />
+        </EntityType>
+        <EntityType Name="TopicInfo">
+          <Key>
+            <PropertyRef Name="TopicId" />
+          </Key>
+          <Property Name="TopicId" Type="int" Nullable="false" />
+          <Property Name="Topic Name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_PaperInfo_TopicInfo">
+          <End Role="TopicInfo" Type="Self.TopicInfo" Multiplicity="0..1" />
+          <End Role="PaperInfo" Type="Self.PaperInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TopicInfo">
+              <PropertyRef Name="TopicId" />
+            </Principal>
+            <Dependent Role="PaperInfo">
+              <PropertyRef Name="TopicId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MyPapersModelStoreContainer">
+          <EntitySet Name="PaperInfo" EntityType="Self.PaperInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TopicInfo" EntityType="Self.TopicInfo" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_PaperInfo_TopicInfo" Association="Self.FK_PaperInfo_TopicInfo">
+            <End Role="TopicInfo" EntitySet="TopicInfo" />
+            <End Role="PaperInfo" EntitySet="PaperInfo" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MyPapersModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="PaperInfo">
+          <Key>
+            <PropertyRef Name="PaperId" />
+          </Key>
+          <Property Name="PaperId" Type="Int32" Nullable="false" />
+          <Property Name="PaperTitle" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PaperAbstract" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PaperAuthor" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PaperDateSubmitted" Type="DateTime" Precision="0" />
+          <Property Name="TopicId" Type="Int32" />
+          <NavigationProperty Name="TopicInfo" Relationship="Self.FK_PaperInfo_TopicInfo" FromRole="PaperInfo" ToRole="TopicInfo" />
+        </EntityType>
+        <EntityType Name="TopicInfo">
+          <Key>
+            <PropertyRef Name="TopicId" />
+          </Key>
+          <Property Name="TopicId" Type="Int32" Nullable="false" />
+          <Property Name="Topic_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="PaperInfos" Relationship="Self.FK_PaperInfo_TopicInfo" FromRole="TopicInfo" ToRole="PaperInfo" />
+        </EntityType>
+        <Association Name="FK_PaperInfo_TopicInfo">
+          <End Role="TopicInfo" Type="Self.TopicInfo" Multiplicity="0..1" />
+          <End Role="PaperInfo" Type="Self.PaperInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TopicInfo">
+              <PropertyRef Name="TopicId" />
+            </Principal>
+            <Dependent Role="PaperInfo">
+              <PropertyRef Name="TopicId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PaperManagementEntity" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="PaperInfoes" EntityType="Self.PaperInfo" />
+          <EntitySet Name="TopicInfoes" EntityType="Self.TopicInfo" />
+          <AssociationSet Name="FK_PaperInfo_TopicInfo" Association="Self.FK_PaperInfo_TopicInfo">
+            <End Role="TopicInfo" EntitySet="TopicInfoes" />
+            <End Role="PaperInfo" EntitySet="PaperInfoes" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MyPapersModelStoreContainer" CdmEntityContainer="PaperManagementEntity">
+          <EntitySetMapping Name="PaperInfoes">
+            <EntityTypeMapping TypeName="MyPapersModel.PaperInfo">
+              <MappingFragment StoreEntitySet="PaperInfo">
+                <ScalarProperty Name="PaperId" ColumnName="PaperId" />
+                <ScalarProperty Name="PaperTitle" ColumnName="PaperTitle" />
+                <ScalarProperty Name="PaperAbstract" ColumnName="PaperAbstract" />
+                <ScalarProperty Name="PaperAuthor" ColumnName="PaperAuthor" />
+                <ScalarProperty Name="PaperDateSubmitted" ColumnName="PaperDateSubmitted" />
+                <ScalarProperty Name="TopicId" ColumnName="TopicId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TopicInfoes">
+            <EntityTypeMapping TypeName="MyPapersModel.TopicInfo">
+              <MappingFragment StoreEntitySet="TopicInfo">
+                <ScalarProperty Name="TopicId" ColumnName="TopicId" />
+                <ScalarProperty Name="Topic_Name" ColumnName="Topic Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
